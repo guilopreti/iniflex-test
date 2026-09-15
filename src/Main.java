@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,12 +19,13 @@ public class Main {
 
     var funcionarioRepository = new FuncionarioRepository();
 
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     // 3.1 Inserção de funcionários
     try {
       System.out.println("3.1 Inserção de funcionários iniciada!");
 
+      DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(
+        "dd/MM/yyyy"
+      );
       for (int i = 0; i < contentArray.length(); i++) {
         JSONObject contentObject = contentArray.getJSONObject(i);
 
@@ -49,8 +52,48 @@ public class Main {
     try {
       System.out.println("3.2 Remoção do funcionário iniciada!");
       System.out.println(funcionarioRepository.remove("João"));
-    } catch (Exception e) {
+    } catch (IllegalArgumentException e) {
       System.out.println("Erro ao remover funcionário: " + e.getMessage());
+    }
+
+    // 3.3 Listagem dos funcionários
+    System.out.println("---------------------------------------------------");
+    System.out.println("3.3 Listagem dos funcionários:");
+    System.out.println();
+
+    List<Funcionario> employeeList = funcionarioRepository.getFuncionarios();
+
+    for (Funcionario funcionario : employeeList) {
+      System.out.println(funcionario);
+    }
+
+    // 3.4 Aumento de 10% para os funcionários
+    System.out.println("---------------------------------------------------");
+    System.out.println("3.4 Aplicação de aumento de 10% para os funcionários:");
+    System.out.println();
+
+    try {
+      funcionarioRepository.giveRaise(10);
+
+      for (Funcionario funcionario : employeeList) {
+        var salario = String.format(
+          Locale.of("pt", "BR"),
+          "%,.2f",
+          funcionario.getSalario()
+        );
+
+        System.out.println(
+          "Nome: " +
+            funcionario.getNome() +
+            ". Salário atualizado: " +
+            salario +
+            "."
+        );
+      }
+    } catch (IllegalArgumentException e) {
+      System.out.println(
+        "Erro ao aplicar aumento de salário: " + e.getMessage()
+      );
     }
   }
 }

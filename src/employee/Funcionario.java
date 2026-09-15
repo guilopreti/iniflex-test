@@ -38,7 +38,7 @@ public class Funcionario extends Pessoa {
       ", salario=" +
       String.format(Locale.of("pt", "BR"), "%,.2f", getSalario()) +
       ", funcao='" +
-      funcao +
+      getFuncao() +
       '\'' +
       "}"
     );
