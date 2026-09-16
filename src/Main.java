@@ -1,6 +1,7 @@
 import employee.Funcionario;
 import employee.FuncionarioRepository;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -163,6 +164,37 @@ public class Main {
     employeeList.sort(Comparator.comparing(Funcionario::getNome));
     for (Funcionario funcionario : employeeList) {
       System.out.println(funcionario);
+    }
+
+    // 3.11 Soma dos salários
+    System.out.println("---------------------------------------------------");
+    System.out.println("3.11 Soma dos salários:");
+    System.out.println();
+
+    BigDecimal totalSalary = funcionarioRepository.getTotalSalary();
+    System.out.println(
+      "Total dos salários: " +
+        String.format(Locale.of("pt", "BR"), "%,.2f", totalSalary)
+    );
+
+    // 3.12 Quantidade de salários mínimos por funcionário
+    System.out.println("---------------------------------------------------");
+    System.out.println(
+      "3.12 Fazendo cálculo de salários mínimos por funcionário:"
+    );
+    System.out.println();
+
+    Map<String, BigDecimal> employeesMinWageQuantity =
+      funcionarioRepository.getMinimumWageByEmployee(new BigDecimal("1212.00"));
+
+    for (var employee : employeesMinWageQuantity.entrySet()) {
+      System.out.println(
+        "Funcionário: " +
+          employee.getKey() +
+          ". Quantidade de salários mínimos: " +
+          employee.getValue() +
+          "."
+      );
     }
   }
 }

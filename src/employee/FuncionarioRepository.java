@@ -1,6 +1,7 @@
 package employee;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -67,5 +68,28 @@ public class FuncionarioRepository {
       );
 
     return oldest;
+  }
+
+  public BigDecimal getTotalSalary() {
+    var total = funcionarios
+      .stream()
+      .map(Funcionario::getSalario)
+      .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    return total;
+  }
+
+  public Map<String, BigDecimal> getMinimumWageByEmployee(
+    BigDecimal minimumWage
+  ) {
+    var minimumWageByEmployee = funcionarios
+      .stream()
+      .collect(
+        Collectors.toMap(Funcionario::getNome, f ->
+          f.getSalario().divide(minimumWage, 2, RoundingMode.HALF_UP)
+        )
+      );
+
+    return minimumWageByEmployee;
   }
 }
