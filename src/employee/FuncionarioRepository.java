@@ -3,6 +3,8 @@ package employee;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FuncionarioRepository {
 
@@ -45,5 +47,13 @@ public class FuncionarioRepository {
         "Porcentagem de aumento deve ser maior que zero."
       );
     }
+  }
+
+  public Map<String, List<Funcionario>> groupByRole() {
+    var groupedByRole = funcionarios
+      .stream()
+      .collect(Collectors.groupingBy(Funcionario::getFuncao));
+
+    return groupedByRole;
   }
 }

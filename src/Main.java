@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -94,6 +95,23 @@ public class Main {
       System.out.println(
         "Erro ao aplicar aumento de salário: " + e.getMessage()
       );
+    }
+
+    // 3.5 e 3.6 Agrupamento de funcionários pela função
+    System.out.println("---------------------------------------------------");
+    System.out.println(
+      "3.5 e 3.6 Agrupando funcionários pela função e listando:"
+    );
+    System.out.println();
+
+    Map<String, List<Funcionario>> groupedEmployees =
+      funcionarioRepository.groupByRole();
+    for (var group : groupedEmployees.entrySet()) {
+      System.out.println("Função: " + group.getKey());
+      for (Funcionario funcionario : group.getValue()) {
+        System.out.println(funcionario);
+      }
+      System.out.println();
     }
   }
 }
