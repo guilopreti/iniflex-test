@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
@@ -112,6 +113,45 @@ public class Main {
         System.out.println(funcionario);
       }
       System.out.println();
+    }
+
+    // 3.8 Listagem dos funcionários que fazem aniversário nos meses 10 e 12
+    System.out.println("---------------------------------------------------");
+    System.out.println(
+      "3.8 Listagem dos funcionários que fazem aniversário nos meses 10 e 12:"
+    );
+    System.out.println();
+
+    for (Funcionario funcionario : employeeList) {
+      int employeeBirthdayMonth = funcionario
+        .getDataNascimento()
+        .getMonthValue();
+      if (
+        employeeBirthdayMonth == 10 || employeeBirthdayMonth == 12
+      ) System.out.println(funcionario);
+    }
+
+    // 3.9 Buscando funcionário mais velho
+    System.out.println("---------------------------------------------------");
+    System.out.println("3.9 Iniciada busca de funcionário mais velho:");
+    System.out.println();
+
+    try {
+      Funcionario oldestEmployee = funcionarioRepository.findOldestEmployee();
+      System.out.println(
+        "Funcionário mais velho: " +
+          oldestEmployee.getNome() +
+          ". Idade: " +
+          Period.between(
+            oldestEmployee.getDataNascimento(),
+            LocalDate.now()
+          ).getYears() +
+          "."
+      );
+    } catch (IllegalArgumentException e) {
+      System.out.println(
+        "Erro ao buscar funcionário mais velho: " + e.getMessage()
+      );
     }
   }
 }
