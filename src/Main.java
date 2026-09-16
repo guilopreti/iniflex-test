@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -152,6 +153,16 @@ public class Main {
       System.out.println(
         "Erro ao buscar funcionário mais velho: " + e.getMessage()
       );
+    }
+
+    // 3.10 Listagem em ordem alfabética
+    System.out.println("---------------------------------------------------");
+    System.out.println("3.10 Listagem de funcionários em ordem alfabética:");
+    System.out.println();
+
+    employeeList.sort(Comparator.comparing(Funcionario::getNome));
+    for (Funcionario funcionario : employeeList) {
+      System.out.println(funcionario);
     }
   }
 }
